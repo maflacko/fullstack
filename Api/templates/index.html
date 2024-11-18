@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Artistes</title>
+</head>
+<body>
+    <h1>Artistes</h1>
+    <div>
+        {% for artist in artists %}
+            <div>
+                <h2>{{ artist.get('artist_name') }}</h2>
+                <p>Genre: {{ artist.get('genre') }}</p>
+                <p>Auditeurs: {{ artist.get('listeners') }}</p>
+                <h3>Top Albums:</h3>
+                <ul>
+                    {% for album in artist.get('top_albums', []) %}
+                        <li>{{ album }}</li>
+                    {% endfor %}
+                </ul>
+                <h3>Top Chansons:</h3>
+                <ul>
+                    {% for song in artist.get('top_songs', []) %}
+                        <li>{{ song }}</li>
+                    {% endfor %}
+                </ul>
+                <h3>Tags:</h3>
+                <ul>
+                    {% for tag in artist.get('tags', []) %}
+                        <li>{{ tag }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p>Aucun artiste trouvé.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
