@@ -39,13 +39,17 @@ Avant de démarrer, assurez-vous d'avoir installé les outils suivants :
    ```
 
 3. **Option pour le scraping** :  
-   Par défaut, le scraping se lance automatiquement lors de l'exécution de `docker-compose up`. Pour désactiver cette étape (et éviter une nouvelle insertion des données à chaque démarrage), commentez la ligne suivante dans le Dockerfile du dossier `Scrapy` :
+   Par défaut, le scraping (qui permet d'obtenir et ensuite d'insérer les données dans la base de donnée) se lance automatiquement lors de l'exécution de `docker-compose up`. Il dure environ 5 minutes. Pour désactiver cette étape (et éviter une nouvelle insertion des données à chaque démarrage), commentez la ligne suivante dans le Dockerfile du dossier `Scrapy` :
    ```dockerfile
    CMD ["scrapy", "crawl", "artistsFM"]
    ```
    Et décommentez la ligne suivante :
    ```dockerfile
    CMD ["tail", "-f", "/dev/null"]
+   ```
+
+   Commentez également la ligne dans *docker-compose.yml* pour éviter le scraping
+   ```command: tail -f /dev/null  #Désactive l'exécution automatique
    ```
 
 4. Une fois lancé, l'interface web sera disponible à l'adresse suivante (par défaut) :  
@@ -140,6 +144,6 @@ Le spider Scrapy extrait des données des pages de genres musicaux sur last.fm. 
 ## Problèmes courants et solutions
 
 - **Page vide dans l'interface**  
-  Attendez la fin du scraping (visible dans la console) et actualisez la page
+  Attendez la fin du scraping, cela dure environ 5 minutes (visible dans la console) et actualisez la page
 
 
