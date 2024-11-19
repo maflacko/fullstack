@@ -13,6 +13,8 @@ services:
       - mongo
     ports:
       - "5000:5000"
+    env_file: 
+    - .env
 
   mongo:
     image: mongo:latest
@@ -20,12 +22,11 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    #environment:
-    #  MONGO_INITDB_ROOT_USERNAME: root
-    #  MONGO_INITDB_ROOT_PASSWORD: changeme
 
     volumes:
       - mongodb_data:/data/db
+
+
 
 volumes:
   mongodb_data:

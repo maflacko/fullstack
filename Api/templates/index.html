@@ -3,15 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Liste des Artistes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+        }
+        .artist {
+            background-color: white;
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .pagination, .filter {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a, .filter a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .pagination a:hover, .filter a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Artistes</h1>
+
+    <!-- Filtrage par genre -->
+    <div class="filter">
+        <span>Filtrer par genre :</span>
+        <a href="/artists?genre=pop">Pop</a>
+        <a href="/artists?genre=rnb">RnB</a>
+        <a href="/artists?genre=hip-hop">Hip-hop</a>
+        <a href="/artists">Tous</a>
+    </div>
+
     <div>
         {% for artist in artists %}
-            <div>
+            <div class="artist">
                 <h2>{{ artist.get('artist_name') }}</h2>
-                <p>Genre: {{ artist.get('genre') }}</p>
-                <p>Auditeurs: {{ artist.get('listeners') }}</p>
+                <p><strong>Genre:</strong> {{ artist.get('genre') }}</p>
+                <p><strong>Auditeurs:</strong> {{ artist.get('listeners') }}</p>
                 <h3>Top Albums:</h3>
                 <ul>
                     {% for album in artist.get('top_albums', []) %}
@@ -34,6 +80,17 @@
         {% else %}
             <p>Aucun artiste trouvé.</p>
         {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <span>Page {{ page }} sur {{ (total // limit) + (1 if total % limit > 0 else 0) }}</span>
+        {% if page > 1 %}
+            <a href="/artists?page={{ page - 1 }}&limit={{ limit }}{% if genre %}&genre={{ genre }}{% endif %}">Précédent</a>
+        {% endif %}
+        {% if page * limit < total %}
+            <a href="/artists?page={{ page + 1 }}&limit={{ limit }}{% if genre %}&genre={{ genre }}{% endif %}">Suivant</a>
+        {% endif %}
     </div>
 </body>
 </html>
